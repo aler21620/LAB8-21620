@@ -42,36 +42,43 @@ void setup() {
   SPI.setModule(0);
   // Inicializa la comunicación con la tarjeta SD
   if (!SD.begin(CS)) {
+    //Indica que algo pasó y no se inicializó correctamente
     Serial.println("No se pudo inicializar la tarjeta SD.");
     return;
   }
-  //Indica que algo pasó y no se inicializó correctamente
-  Serial.println("Tarjeta SD inicializada correctamente.");
+  //Indica que se inicializó correctamente
+  Serial.println("Tarjeta SD inicializada correctamente."); 
 }
 
 //*****************************************************************************
 // Loop
 //*****************************************************************************
 void loop() {
+  //Muestra el menú al usuario en el monitor serial 
   Serial.println("Hola! Bienvenido!"); 
-  Serial.println("Menú de opciones:");
-  Serial.println("1. Mostrar dibujo 1");
-  Serial.println("2. Mostrar dibujo 2");
-  Serial.println("3. Mostrar dibujo 3");
-  Serial.println("4. Dibujar imagen propia");
-  Serial.print("Seleccione una opción (1, 2, 3 o 4): ");
+  Serial.println("Menú de opciones para conocer como trabaja la SD:");
+  Serial.println("Puedes ver archivos preguardados: ");
+  Serial.println("1. Mostrar dibujo 1: Mike Wazowski ");
+  Serial.println("2. Mostrar dibujo 2: LEGO Man ");
+  Serial.println("3. Mostrar dibujo 3: Google ");
+  Serial.println("O puedes guardar uno nuevo: "); 
+  Serial.println("4. Dibuja tu propia imagen ");
+  Serial.print("Selecciona una opción (1, 2, 3 o 4): ");
 
   while (Serial.available() == 0) {
     // Espera a que el usuario ingrese una opción
   }
 
-  int opcion = Serial.parseInt();  // Lee la opción ingresada por el usuario
+  int eleccion = Serial.parseInt();  // Lee la opción ingresada por el usuario
+  delay(500); 
 
   //Opciones dependiendo lo que seleccioné
-  switch (opcion) {
+  switch (eleccion) {
     case 1: {
       // Acciones para mostrar el dibujo 1
       Serial.println("Mostrando dibujo 1...");
+      Serial.println("Aqui está Mike Wazowski ... "); 
+      delay(250); 
       File dibujo1 = SD.open("dibujo1.txt");
       if (dibujo1) {
         Serial.println("dibujo1.txt");
@@ -88,6 +95,8 @@ void loop() {
     case 2: {
       // Acciones para mostrar el dibujo 2
       Serial.println("Mostrando dibujo 2...");
+      Serial.println("Aquí está LEGO Man ..."); 
+      delay(250); 
       File dibujo2 = SD.open("dibujo2.txt");
       if (dibujo2) {
         Serial.println("dibujo2.txt");
@@ -103,6 +112,8 @@ void loop() {
     case 3: {
       // Acciones para mostrar el dibujo 3
       Serial.println("Mostrando dibujo 3...");
+      Serial.println("Aquí está Google ..."); 
+      delay(250); 
       File dibujo3 = SD.open("dibujo3.txt");
       if (dibujo3) {
         Serial.println("dibujo3.txt");
@@ -123,8 +134,18 @@ void loop() {
     }
 
     default: {
-      Serial.println("Opción no válida. Por favor, seleccione una opción válida (1, 2 o 3).");
-      delay(250);
+      Serial.println("Ohh no, está opción no es válida"); 
+      Serial.println("Por favor, selecciona una opción válida (1, 2, 3 o 4).");
+      delay(250); 
+      File error = SD.open("error.txt");
+      if (error) {
+        Serial.println("error.txt");
+        while (error.available()) {
+          Serial.write(error.read());
+        }
+        error.close();
+        delay(250);
+      }
       break;
     }
   }
@@ -138,6 +159,7 @@ void loop() {
 //*****************************************************************************
 // Funciones
 //*****************************************************************************
+//Está función es la que muestra en pantalla (monitor serial), la matriz creada por el usuario
 void dibujando() {
   //Imprimir la matriz en el monitor serial
   for (int i = 0; i < altura; i++) {
@@ -148,6 +170,7 @@ void dibujando() {
   }
 }
 
+//Está función permite al usuario crear la matriz con el diseño que desea 
 void dibujar() {
   Serial.println("Dibuja tu imagen (utiliza 'X' para dibujar y ' ' para dejar espacios entre carácter) ");
   Serial.println("Tienes espacio para dibujar de 20 columnas y 10 filas");
@@ -174,9 +197,10 @@ void dibujar() {
   }
 
   Serial.println("Imagen dibujada:");
-  dibujando();
+  dibujando(); //Llama a la función para que muestre matriz creada
 }
 
+//Función para guardar el archivo en la memoria SD
 void guardar(String nombre) {
   File archivo = SD.open("prueba.txt", FILE_WRITE);
 
