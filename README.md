@@ -18,4 +18,4 @@ Se recomienda que la imagen no sea mayor a 32 caracteres de ancho.
 Crear una rutina que permita al usuario crear su propia imagen desde la terminal y guardarla en la memoria SD. El archivo saldrá en la lista con los otros que hemos agregado con anterioridad.
 
 
-_**Link a vídeo de funcionamiento: **_ 
+**_Link a vídeo de funcionamiento:_** https://youtu.be/BDNiQgFJOzI 
