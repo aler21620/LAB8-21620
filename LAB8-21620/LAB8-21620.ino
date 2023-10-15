@@ -90,8 +90,7 @@ void loop() {
       }
       break;
     }
-      //archivo_mostrar("dibujo1.txt"); // Llama a una función para mostrar el dibujo 1 desde la memoria SD
-
+    
     case 2: {
       // Acciones para mostrar el dibujo 2
       Serial.println("Mostrando dibujo 2...");
